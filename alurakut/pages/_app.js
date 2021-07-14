@@ -8,7 +8,7 @@ const GlobalStyle = createGlobalStyle`
     box-sizing: border-box;
   }  
 body {
-  background-color: #90ee90 ;
+  background-image: url('https://www.myintercambio.com.br/wp-content/uploads/2020/04/vancouver-sunset-city-landscape-wallpaper-2-scaled.jpg') ;
   font-family: sans-serif;
 }
 
