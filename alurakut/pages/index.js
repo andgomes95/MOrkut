@@ -1,4 +1,4 @@
-import {useState} from 'react'
+import {useState,useEffect} from 'react'
 import MainGrid from '../src/components/MainGrid'
 import Box from '../src/components/Box'
 import {AlurakutMenu, AlurakutProfileSidebarMenuDefault, OrkutNostalgicIconSet} from '../src/lib/AlurakutCommons';
@@ -21,6 +21,30 @@ function ProfileSidebar(props ){
   </Box>
   );
 }
+    
+function ProfileRelationsBox(props){
+  return(
+    <ProfileRelationsBoxWrapper>
+      <h2 className="smallTitle">
+        {props.title} ({props.itens.length})
+      </h2>
+      <ul>
+        {props.itens.map((item,index)=>{
+          if(index < 6)
+          return (
+            <li  key={item.id}>
+              <a href={`https://github.com/${item.login}`} key={item} target="_blank">
+                <img src={`https://github.com/${item.login}.png`} />
+                <span> {item.login}</span>
+              </a>
+            </li>
+            )
+        })}
+      </ul>
+    </ProfileRelationsBoxWrapper>
+  )
+}
+
 export default function Home() { 
   const githubUser = 'andgomes95';
   const [comunidades,setComunidades] = useState([{
@@ -28,14 +52,21 @@ export default function Home() {
     title: 'Alurakut', 
     image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/1.svg'
   }]);
-  const pessoasFavoritas = [
-    'Remoliveira',
-    'paulohtobias',
-    'Niehaus', 
-    'Luzim', 
-    'jenaroaaugusto', 
-    'Matheusrlr'
-  ]
+  
+  const [seguidores,setSeguidores]= useState([]);
+  // pegar o array de dados do git
+  useEffect(()=>{
+    fetch('https://api.github.com/users/andgomes95/followers')
+    .then((res) =>{
+      return res.json();
+    }).then((res)=>{
+      setSeguidores(res);
+    })
+  },[])
+  
+  //box com map
+
+
   return (
     <>
     <AlurakutMenu />
@@ -89,7 +120,8 @@ export default function Home() {
             Pessoas da Comunidades ({comunidades.length})
           </h2>
         <ul>
-            {comunidades.map((item)=>{
+            {comunidades.map((item,index)=>{
+              if(index < 6)
               return (
                 <li  key={item.id}>
                   <a href={`/users/${item.title}`} key={item.id}>
@@ -101,23 +133,10 @@ export default function Home() {
             })}
           </ul>
         </ProfileRelationsBoxWrapper>
-        <ProfileRelationsBoxWrapper>
-          <h2 className="smallTitle">
-            Pessoas da Comunidades ({pessoasFavoritas.length})
-          </h2>
-          <ul>
-            {pessoasFavoritas.map((item)=>{
-              return (
-                <li key={item}>
-                  <a href={`/users/${item}`} key={item}>
-                    <img src={`https://github.com/${item}.png`} />
-                    <span> {item}</span>
-                  </a>
-                </li>
-                )
-            })}
-          </ul>
-        </ProfileRelationsBoxWrapper>
+        <ProfileRelationsBox
+          itens={seguidores}
+          title="Seguidores"
+        />
       </div>
     </MainGrid>
     </>
