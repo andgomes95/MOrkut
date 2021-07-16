@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 import Box from '../Box';
+import {AlurakutProfileSidebarMenuDefault} from '../../lib/AlurakutCommons'
+
 
 export const ProfileRelationsBoxWrapper = styled(Box)`
   ul {
@@ -50,3 +52,45 @@ export const ProfileRelationsBoxWrapper = styled(Box)`
     }
   }
 `;
+
+
+export function ProfileSidebar(props ){
+  return(
+  <Box as="aside">
+    <img src={`https://github.com/${props.githubUser}.png`} style={{ borderRadius: '8px'}}></img>
+
+    <hr />
+    <p>
+      <a className="boxLink" href={`https://github.com/${props.githubUser}`}>
+        @{props.githubUser}
+      </a>
+    </p>
+    <hr />
+
+    <AlurakutProfileSidebarMenuDefault />
+  </Box>
+  );
+}
+
+export function ProfileRelationsBox(props){
+  return(
+    <ProfileRelationsBoxWrapper>
+      <h2 className="smallTitle">
+        {props.title} ({props.itens.length})
+      </h2>
+      <ul>
+        {props.itens.map((item,index)=>{
+          if(index < 6)
+          return (
+            <li  key={item.id}>
+              <a href={`https://github.com/${item.login}`} key={item} target="_blank">
+                <img src={`https://github.com/${item.login}.png`} />
+                <span> {item.login}</span>
+              </a>
+            </li>
+            )
+        })}
+      </ul>
+    </ProfileRelationsBoxWrapper>
+  )
+}
