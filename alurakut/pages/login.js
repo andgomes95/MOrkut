@@ -2,11 +2,16 @@
 import { useRouter } from 'next/router';
 import React from 'react';
 import nookies from 'nookies';
+import Head from 'next/head'
 
 export default function LoginScreen() {
     const router = useRouter();
     const [githubUser,setGithubUser] = React.useState('');
   return (
+    <>
+    <Head>
+      <link  rel="shortcut icon" href="../public/favicon.ico" />
+    </Head>
     <main style={{ display: 'flex', flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <div className="loginScreen">
         <section className="logoArea">
@@ -78,5 +83,6 @@ export default function LoginScreen() {
         </footer>
       </div>
     </main>
+    </>
   )
 } 

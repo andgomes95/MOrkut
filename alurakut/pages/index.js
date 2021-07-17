@@ -101,23 +101,31 @@ export default function Home(props) {
               arial-label="Coloque uma URL da imagem do anime?" 
             />
           </div>
-          <button>
+          <button type="submit">
             Adicionar anime
           </button>
         </form>
       </Box>
     </div>
       <div className="profileRelationsArea" style={{gridArea: 'profileRelationsArea'}}>
+        <ProfileRelationsBox
+          itens={seguidores}
+          title="Seguidores"
+        />
         <ProfileRelationsBoxWrapper>
         <h2 className="smallTitle">
-            Animes para assistir ({animes.length})
+            Animes para assistir (
+              {animes.filter((value)=>{
+                return value.creatorSlug == githubUser
+              }).length}
+            )
           </h2>
         <ul>
             {animes.map((item,index)=>{
-              if(index < 6)
+              if(index < 6 && item.creatorSlug == githubUser) 
               return (
                 <li  key={item.id}>
-                  <a href={`/animes/${item.id}`} key={item.id}>
+                  <a key={item.id}>
                     <img src={`${item.imageUrl}`} />
                     <span> {item.title}</span>
                   </a>
@@ -129,10 +137,6 @@ export default function Home(props) {
             alert("itsme")
           }}> Ver todos</button>
         </ProfileRelationsBoxWrapper>
-        <ProfileRelationsBox
-          itens={seguidores}
-          title="Seguidores"
-        />
       </div>
     </MainGrid>
     </>
