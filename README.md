@@ -12,11 +12,11 @@ Para acessar o site  <a href="https://alurakut-five-kappa.vercel.app">Clique Aqu
 - [x] editar readme
 - [x] construir pagina de seguidores
 - [x] mudar adicionar anime para tela de anime
-- [x] ajustar layout estranho / refactor
-- [x] modificar profile area
-- [x] paginação simples
-- [x] colocar animes recentemente adicionados no feed inicial
-- [x] scroll infinito do videozinho - https://youtu.be/lrot_otx2tA
+- [ ] ajustar layout estranho / refactor
+- [ ] modificar profile area
+- [ ] paginação simples
+- [ ] colocar animes recentemente adicionados no feed inicial
+- [ ] scroll infinito do videozinho - https://youtu.be/lrot_otx2tA
 
 
 ### Para executar localmente:
