@@ -7,14 +7,20 @@ import Box from '../src/components/Box'
 import {AlurakutMenu, OrkutNostalgicIconSet} from '../src/lib/AlurakutCommons';
 import {ProfileRelationsBoxWrapper, ProfileRelationsBox,ProfileSidebar} from '../src/components/ProfileRelations';
 
-
 export default function Home(props) { 
   const router = useRouter();
   const githubUser = props.githubUser;
+  const [dadosPessoais,setDadosPessoais] = useState('');
   const [animes,setAnimes] = useState([]);
   const [seguidores,setSeguidores]= useState([]);
   // GET: array de dados do git
   useEffect(()=>{
+    fetch(`https://api.github.com/users/${githubUser}`)
+    .then((res) =>{
+      return res.json();
+    }).then((res)=>{
+      setDadosPessoais(res);
+    })
     fetch(`https://api.github.com/users/${githubUser}/followers`)
     .then((res) =>{
       return res.json();
@@ -61,53 +67,8 @@ export default function Home(props) {
         
           <Box>
             <h1 className="title">Seja bem vindo, {githubUser}</h1>
-            <OrkutNostalgicIconSet></OrkutNostalgicIconSet>
+            <h2 className="smallTitle"> {dadosPessoais.bio} </h2>
           </Box>
-      <Box>
-        <h2 className="subTitle"> O que você deseja fazer?</h2>
-        <form 
-          onSubmit={function handleCriaAnime(e){
-            e.preventDefault();
-            const dadosDoFrom = new FormData(e.target);
-            const anime = {
-              title:dadosDoFrom.get('title'),
-              imageUrl:dadosDoFrom.get('image'),
-              creatorSlug:githubUser,
-            }
-
-            fetch('/api/animes',{
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify(anime)
-            })
-            .then(async (res)=>{
-              const dados = await res.json();
-              setAnimes([...animes, dados.novoAnime]);
-            })
-          }}
-        >
-          <div>
-            <input 
-              placeholder="Qual vai ser o anime que você quer ver?" 
-              name="title" 
-              arial-label="Qual vai ser o anime que você quer ver?" 
-              type="text"
-            />
-          </div>
-          <div>
-            <input 
-              placeholder="Coloque uma URL da imagem do anime?" 
-              name="image" 
-              arial-label="Coloque uma URL da imagem do anime?" 
-            />
-          </div>
-          <button type="submit">
-            Adicionar anime
-          </button>
-        </form>
-      </Box>
     </div>
       <div className="profileRelationsArea" style={{gridArea: 'profileRelationsArea'}}>
         <ProfileRelationsBox
@@ -123,8 +84,11 @@ export default function Home(props) {
             )
           </h2>
         <ul>
-            {animes.map((item,index)=>{
-              if(index < 6 && item.creatorSlug == githubUser) 
+            {animes.filter((item)=>{
+              return item.creatorSlug == githubUser
+            })            
+            .map((item,index)=>{
+              if(index < 6) {
               return (
                 <li  key={item.id}>
                   <a key={item.id}>
@@ -133,6 +97,7 @@ export default function Home(props) {
                   </a>
                 </li>
                 )
+              }
             })}
           </ul>
           <button onClick={()=>{

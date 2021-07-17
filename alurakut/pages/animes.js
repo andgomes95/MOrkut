@@ -3,7 +3,7 @@ import nookies from 'nookies'
 import jwt from 'jsonwebtoken'
 import {AlurakutMenu} from '../src/lib/AlurakutCommons';
 import { AnimeGrid } from '../src/components/MainGrid';
-import {ProfileAnimePage, AnimeListBox} from '../src/components/AnimePageComponents';
+import {ProfileAnimePage, AnimeListBox,AddAnimeForm} from '../src/components/AnimePageComponents';
 
 export default function AnimePage(props){
     const githubUser = props.githubUser;
@@ -51,6 +51,13 @@ export default function AnimePage(props){
         />
         </div>
         <div className="welcomeArea" style={{gridArea: 'welcomeArea'}}>
+            <AddAnimeForm
+              animes = {animes}
+              setAnimes = {(retAnimes)=>{
+                setAnimes(retAnimes)
+              }}
+              githubUser = {githubUser}
+            />
             <AnimeListBox 
                 animes={animes}
                 githubUser={githubUser}

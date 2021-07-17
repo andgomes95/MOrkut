@@ -81,3 +81,53 @@ export const ProfileAnimePage = (props)=>{
         </Box>
     )
 }
+
+export const AddAnimeForm = (props)=>{
+    return (
+    <Box>
+      <h2 className="title"> Adicione um anime para sua Lista :)</h2>
+      <form 
+        onSubmit={function handleCriaAnime(e){
+          e.preventDefault();
+          const dadosDoFrom = new FormData(e.target);
+          const anime = {
+            title:dadosDoFrom.get('title'),
+            imageUrl:dadosDoFrom.get('image'),
+            creatorSlug:props.githubUser,
+          }
+  
+          fetch('/api/animes',{
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(anime)
+          })
+          .then(async (res)=>{
+            const dados = await res.json();
+            props.setAnimes([...props.animes, dados.novoAnime]);
+          })
+        }}
+      >
+        <div>
+          <input 
+            placeholder="Qual vai ser o anime que você quer ver?" 
+            name="title" 
+            arial-label="Qual vai ser o anime que você quer ver?" 
+            type="text"
+          />
+        </div>
+        <div>
+          <input 
+            placeholder="Coloque uma URL da imagem do anime?" 
+            name="image" 
+            arial-label="Coloque uma URL da imagem do anime?" 
+          />
+        </div>
+        <button type="submit">
+          Adicionar anime
+        </button>
+      </form>
+    </Box>
+    )
+  }
