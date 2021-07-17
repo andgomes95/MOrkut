@@ -1,4 +1,5 @@
 import {useState,useEffect} from 'react'
+import { useRouter } from 'next/router';
 import nookies from 'nookies'
 import jwt from 'jsonwebtoken'
 import MainGrid from '../src/components/MainGrid'
@@ -8,6 +9,7 @@ import {ProfileRelationsBoxWrapper, ProfileRelationsBox,ProfileSidebar} from '..
 
 
 export default function Home(props) { 
+  const router = useRouter();
   const githubUser = props.githubUser;
   const [animes,setAnimes] = useState([]);
   const [seguidores,setSeguidores]= useState([]);
@@ -134,7 +136,7 @@ export default function Home(props) {
             })}
           </ul>
           <button onClick={()=>{
-            alert("itsme")
+            router.push('/animes')
           }}> Ver todos</button>
         </ProfileRelationsBoxWrapper>
       </div>
